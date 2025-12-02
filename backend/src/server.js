@@ -9,7 +9,7 @@ import keyRoutes from './Routes/keyRoutes.js';
 import projectRoutes from './Routes/projectRoutes.js';
 
 
-dotenv.config("./");
+
 const app = express();
 
 app.use(cors({
