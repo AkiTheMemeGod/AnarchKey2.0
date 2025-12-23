@@ -1,55 +1,149 @@
-.item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-4);
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    transition: border-color 0.2s ease;
+.scene {
+    width: 100%;
+    height: 200px;
+    perspective: 1000px;
 }
 
-.item:hover {
-    border-color: var(--border-strong);
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
 }
 
-.info {
+.isFlipped {
+    transform: rotateY(180deg);
+}
+
+.cardFace {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.name {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
+.cardFront {
+    background: linear-gradient(145deg, rgba(0, 36, 85, 0.6), rgba(0, 15, 40, 0.8));
+    backdrop-filter: blur(12px);
 }
 
-.keyContainer {
+.cardFront:hover {
+    border-color: rgba(255, 56, 56, 0.3);
+    box-shadow: 0 0 20px rgba(255, 56, 56, 0.1);
+}
+
+.cardBack {
+    background: linear-gradient(145deg, rgba(20, 0, 0, 0.9), rgba(40, 0, 0, 0.95));
+    transform: rotateY(180deg);
+    border-color: rgba(255, 56, 56, 0.3);
+}
+
+.iconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-4);
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
 }
 
-.key {
+.card:hover .iconWrapper {
+    background: rgba(255, 56, 56, 0.1);
+    color: var(--primary);
+    transform: scale(1.1);
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.hint {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cornerDecoration {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border-top: 2px solid var(--primary);
+    border-right: 2px solid var(--primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .cornerDecoration {
+    opacity: 1;
+}
+
+/* Back Face Styles */
+.header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    width: 100%;
+}
+
+.iconWrapperSmall {
+    color: var(--success);
+}
+
+.label {
+    font-size: 10px;
+    color: var(--success);
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.secretDisplay {
+    background: rgba(0, 0, 0, 0.4);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    width: 100%;
+    text-align: center;
+    margin-bottom: var(--space-4);
+    border: 1px solid rgba(255, 56, 56, 0.1);
+    color: var(--primary);
     font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--text-secondary);
-    background-color: var(--bg-app);
-    padding: 2px 6px;
-    border-radius: var(--radius-sm);
+    font-size: 14px;
+    word-break: break-all;
 }
 
 .actions {
     display: flex;
-    align-items: center;
-    gap: var(--space-1);
+    gap: var(--space-2);
+    width: 100%;
+    justify-content: center;
 }
 
-.success {
-    color: var(--success);
+.successBtn {
+    color: var(--success) !important;
+    border-color: var(--success) !important;
 }
 
 .deleteBtn:hover {
     color: var(--danger);
-    background-color: rgba(239, 68, 68, 0.1);
+    background: rgba(255, 0, 0, 0.1);
 }
