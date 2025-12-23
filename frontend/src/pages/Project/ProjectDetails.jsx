@@ -8,6 +8,7 @@ import Button from '../../components/ui/Button';
 import Modal from '../../components/ui/Modal';
 import Input from '../../components/ui/Input';
 import Loader from '../../components/ui/Loader';
+import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import styles from './ProjectDetails.module.css';
 
 const ProjectDetails = () => {
@@ -21,6 +22,7 @@ const ProjectDetails = () => {
     const [createLoading, setCreateLoading] = useState(false);
     const [error, setError] = useState('');
     const [deleteLoading, setDeleteLoading] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     const fetchProject = async () => {
         try {
@@ -74,17 +76,20 @@ const ProjectDetails = () => {
         }
     };
 
-    const handleDeleteProject = async () => {
-        if (window.confirm('Are you sure you want to delete this ENTIRE project? All secrets will be lost forever.')) {
-            setDeleteLoading(true);
-            try {
-                await api.delete(`/v1/project/${id}`);
-                navigate('/dashboard');
-            } catch (err) {
-                console.error("Failed to delete project", err);
-                alert("Failed to delete project");
-                setDeleteLoading(false);
-            }
+    const handleDeleteProjectClick = () => {
+        setShowDeleteConfirm(true);
+    };
+
+    const handleConfirmDeleteProject = async () => {
+        setDeleteLoading(true);
+        try {
+            await api.delete(`/v1/project/${id}`);
+            navigate('/dashboard');
+        } catch (err) {
+            console.error("Failed to delete project", err);
+            alert("Failed to delete project");
+            setDeleteLoading(false);
+            setShowDeleteConfirm(false);
         }
     };
 
@@ -125,7 +130,7 @@ const ProjectDetails = () => {
                     <Button
                         variant="ghost"
                         className={styles.deleteProjectBtn}
-                        onClick={handleDeleteProject}
+                        onClick={handleDeleteProjectClick}
                         isLoading={deleteLoading}
                     >
                         <Trash2 size={18} />
@@ -184,6 +189,17 @@ const ProjectDetails = () => {
                     </div>
                 </form>
             </Modal>
+
+            <ConfirmDialog
+                isOpen={showDeleteConfirm}
+                onClose={() => setShowDeleteConfirm(false)}
+                onConfirm={handleConfirmDeleteProject}
+                title="Delete Project"
+                message={`Are you sure you want to delete the project "${project.project_name}"? This will permanently delete all secrets associated with it. This action cannot be undone.`}
+                confirmText="Delete Project"
+                isDangerous={true}
+                isLoading={deleteLoading}
+            />
         </DashboardLayout>
     );
 };
