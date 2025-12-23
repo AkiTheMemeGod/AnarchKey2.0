@@ -1,4 +1,5 @@
 import Project from '../Models/Project.js'
+import KeyUsage from '../Models/KeyUsage.js'
 
 export async function getAllKeys(req, res) {
 	try {
@@ -109,9 +110,74 @@ export async function retrieveKey(req, res) {
 			return res.status(404).json({ message: "Secret not found" });
 		}
 
+		// Log usage
+		await KeyUsage.create({
+			projectId: project._id,
+			keyName: secret_name
+		});
+
 		res.json({ secret_name: key.key_name, api_key: key.api_key });
 	} catch (error) {
 		console.error("Error retrieving key", error);
+		res.status(500).json({ message: "Server error" });
+	}
+}
+
+export async function getUsageStats(req, res) {
+	try {
+		const userId = req.user.id;
+		// Find all projects for this user
+		const projects = await Project.find({ userId }).select('_id');
+		const projectIds = projects.map(p => p._id);
+
+		const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+		// Aggregate usage by hour and key
+		const usage = await KeyUsage.aggregate([
+			{
+				$match: {
+					projectId: { $in: projectIds },
+					timestamp: { $gte: twentyFourHoursAgo }
+				}
+			},
+			{
+				$group: {
+					_id: {
+						hour: { $dateToString: { format: "%Y-%m-%d %H:00", date: "$timestamp" } },
+						keyName: "$keyName"
+					},
+					count: { $sum: 1 }
+				}
+			},
+			{ $sort: { "_id.hour": 1 } }
+		]);
+
+		// Transform data for the chart: [{ hour: "...", key1: count, key2: count }, ...]
+		const transformedData = {};
+		const allKeys = new Set();
+
+		usage.forEach(item => {
+			const hour = item._id.hour;
+			const key = item._id.keyName;
+			const count = item.count;
+
+			if (!transformedData[hour]) {
+				transformedData[hour] = { name: hour }; // 'name' for X-axis
+			}
+			transformedData[hour][key] = count;
+			allKeys.add(key);
+		});
+
+		// Fill in missing hours with 0 for all keys (optional, but good for smooth lines)
+		// For simplicity, we'll just return the sparse data, recharts handles it reasonably well,
+		// but filling gaps is better. Let's stick to sparse for now to keep it simple, 
+		// or we can just return the array.
+
+		const result = Object.values(transformedData).sort((a, b) => a.name.localeCompare(b.name));
+
+		res.json({ usage: result, keys: Array.from(allKeys) });
+	} catch (error) {
+		console.error("Error fetching usage stats", error);
 		res.status(500).json({ message: "Server error" });
 	}
 }
