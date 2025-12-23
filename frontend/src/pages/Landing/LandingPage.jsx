@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, AlertTriangle, Zap, Globe, Rocket, Package, Box, Copy, ExternalLink, Info, Lightbulb, Check, Sun, Moon } from 'lucide-react';
+import { Shield, AlertTriangle, Zap, Globe, Rocket, Package, Box, Copy, ExternalLink, Check } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import Button from '../../components/ui/Button';
+import DecryptText from '../../components/ui/DecryptText';
 import styles from './LandingPage.module.css';
 
 const LandingPage = () => {
@@ -14,11 +15,9 @@ const LandingPage = () => {
         const handleScroll = () => {
             if (heroRef.current) {
                 const scrolled = window.scrollY;
-                // Move hero up at half speed (parallax)
-                // Also fade it out slightly as it scrolls
                 const rate = scrolled * 0.5;
                 const opacity = 1 - (scrolled / window.innerHeight);
-                heroRef.current.style.transform = `translateY(-${rate}px)`;
+                heroRef.current.style.transform = `translateY(${rate}px)`;
                 heroRef.current.style.opacity = Math.max(0, opacity);
             }
         };
@@ -53,9 +52,15 @@ const LandingPage = () => {
                 </div>
             </nav>
 
-            <section className={styles.hero} ref={heroRef}>
-                <div className={styles.heroContent}>
-                    <h1 className={styles.heroTitle}>The Last API Key Manager<br />You'll Ever Need</h1>
+            <section className={styles.hero}>
+                <div className={styles.heroBackground}></div>
+                <div className={styles.gridBackground}></div>
+                <div className={styles.heroContent} ref={heroRef}>
+                    <h1 className={styles.heroTitle}>
+                        <DecryptText text="The Last API Key Manager" reveal={true} />
+                        <br />
+                        You'll Ever Need
+                    </h1>
                     <p className={styles.heroText}>
                         Stop compromising on security. AnarchKey provides military-grade encryption
                         for your API keys with zero compromise on usability.
