@@ -5,6 +5,8 @@ import styles from './AuthLayout.module.css';
 const AuthLayout = ({ children, title, subtitle }) => {
     return (
         <div className={styles.container}>
+            <div className={styles.heroBackground}></div>
+            <div className={styles.gridBackground}></div>
             <div className={styles.content}>
                 <div className={styles.header}>
                     <div className={styles.logo}>
