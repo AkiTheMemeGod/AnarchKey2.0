@@ -1,0 +1,188 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-app);
+}
+
+.sidebar {
+    width: 280px;
+    background: rgba(0, 15, 40, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 40;
+    box-shadow: 5px 0 30px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0 var(--space-6);
+    margin-bottom: var(--space-2);
+    position: relative;
+}
+
+.logo::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: var(--space-6);
+    right: var(--space-6);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.logoImg {
+    height: 40px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 56, 56, 0.3));
+}
+
+.logoText {
+    font-weight: 700;
+    font-size: 20px;
+    background: linear-gradient(135deg, #fff 0%, #aeb9cc 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+}
+
+.nav {
+    flex: 1;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+}
+
+.navItem:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    transform: translateX(4px);
+}
+
+.active {
+    background: rgba(255, 56, 56, 0.1);
+    color: var(--primary);
+    border-color: rgba(255, 56, 56, 0.2);
+    box-shadow: 0 0 20px rgba(255, 56, 56, 0.1);
+}
+
+.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--primary);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.user {
+    padding: var(--space-4);
+    margin: var(--space-4);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+
+.user:hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    overflow: hidden;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary), #a30000);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(255, 56, 56, 0.3);
+}
+
+.userDetails {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.username {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.email {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logoutBtn {
+    color: var(--text-secondary);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+.logoutBtn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--danger);
+    opacity: 1;
+}
+
+.main {
+    flex: 1;
+    padding: var(--space-8);
+    overflow-y: auto;
+    background: radial-gradient(circle at top right, rgba(0, 36, 85, 0.4), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(220, 0, 0, 0.05), transparent 40%);
+}
