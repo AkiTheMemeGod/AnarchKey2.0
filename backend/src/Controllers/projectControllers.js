@@ -1,4 +1,5 @@
 import Project from '../Models/Project.js'
+import { generateApiKey } from '../utils/generators.js'
 
 export async function getAllProjects(req, res) {
 	try {
@@ -31,7 +32,7 @@ export async function addProject(req, res) {
 		if (!userId) return res.status(400).json({ message: "userId is required" });
 		if (!project_name) return res.status(400).json({ message: "project_name is required" });
 
-		const newProject = new Project({ userId, project_name, keys: Array.isArray(keys) ? keys : [] });
+		const newProject = new Project({ userId, project_name, keys: Array.isArray(keys) ? keys : [], access_key: generateApiKey() });
 		await newProject.save();
 		res.status(201).json({ message: "Project created", project: newProject });
 	} catch (error) {
@@ -63,4 +64,3 @@ export async function deleteProject(req, res) {
 		res.status(500).json({ message: "Server error" });
 	}
 }
-  
