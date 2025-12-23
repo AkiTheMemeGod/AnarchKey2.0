@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const projectSchema = mongoose.Schema({
-    userId : {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    project_name : {type: String, required: true},
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    project_name: { type: String, required: true },
     keys: {
         type: [
             {
@@ -13,9 +13,10 @@ const projectSchema = mongoose.Schema({
         ],
         required: false,
         default: []
-    }
+    },
+    access_key: { type: String, required: true }
 },
-    {timestamps: true}
+    { timestamps: true }
 );
 
 const Project = mongoose.model("Project", projectSchema);
