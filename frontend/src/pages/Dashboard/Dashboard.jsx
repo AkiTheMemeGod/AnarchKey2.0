@@ -18,20 +18,37 @@ const Dashboard = () => {
     const [error, setError] = useState('');
     const [createdProject, setCreatedProject] = useState(null);
     const [isCopied, setIsCopied] = useState(false);
+    const [totalUsage, setTotalUsage] = useState(0);
 
-    const fetchProjects = async () => {
+    const fetchData = async () => {
         try {
-            const { data } = await api.get('/v1/project/getprojects');
-            setProjects(data.projects || []);
+            const [projectsRes, usageRes] = await Promise.all([
+                api.get('/v1/project/getprojects'),
+                api.get('/v1/key/usage')
+            ]);
+
+            setProjects(projectsRes.data.projects || []);
+
+            const usageData = usageRes.data.usage || [];
+            const total = usageData.reduce((acc, curr) => {
+                // usageData is [{ name: "hour", key1: count, key2: count }, ...]
+                // We need to sum all values that are numbers (excluding 'name')
+                const hourTotal = Object.values(curr).reduce((sum, val) => {
+                    return typeof val === 'number' ? sum + val : sum;
+                }, 0);
+                return acc + hourTotal;
+            }, 0);
+            setTotalUsage(total);
+
         } catch (err) {
-            console.error("Failed to fetch projects", err);
+            console.error("Failed to fetch dashboard data", err);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchProjects();
+        fetchData();
     }, []);
 
     const handleCreateProject = async (e) => {
@@ -45,7 +62,7 @@ const Dashboard = () => {
             const { data } = await api.post('/v1/project', { project_name: newProjectName });
             setCreatedProject(data.project);
             setNewProjectName('');
-            fetchProjects(); // Refresh list
+            fetchData(); // Refresh list
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to create project');
         } finally {
@@ -94,8 +111,10 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className={styles.statCard}>
-                    <div className={styles.statLabel}>System Status</div>
-                    <div className={styles.statValue} style={{ color: 'var(--success)' }}>Operational</div>
+                    <div className={styles.statLabel}>Total API Calls (24h)</div>
+                    <div className={styles.statValue} style={{ color: 'var(--primary)' }}>
+                        {totalUsage}
+                    </div>
                 </div>
             </div>
 
