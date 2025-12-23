@@ -8,6 +8,7 @@ import VerifyEmail from './pages/Auth/VerifyEmail';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ProjectDetails from './pages/Project/ProjectDetails';
 import LandingPage from './pages/Landing/LandingPage';
+import Analytics from './pages/Analytics/Analytics';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} /> {/* Changed / to /dashboard for Dashboard */}
             <Route path="/project/:id" element={<ProjectDetails />} />
+            <Route path="/analytics" element={<Analytics />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
