@@ -91,4 +91,27 @@ export async function deleteKey(req, res) {
 		res.status(500).json({ message: 'Server error' });
 	}
 }
-  
+
+export async function retrieveKey(req, res) {
+	try {
+		const { access_token, secret_name } = req.body;
+		if (!access_token || !secret_name) {
+			return res.status(400).json({ message: "access_token and secret_name are required" });
+		}
+
+		const project = await Project.findOne({ access_key: access_token });
+		if (!project) {
+			return res.status(404).json({ message: "Invalid access token" });
+		}
+
+		const key = project.keys.find(k => k.key_name === secret_name);
+		if (!key) {
+			return res.status(404).json({ message: "Secret not found" });
+		}
+
+		res.json({ secret_name: key.key_name, api_key: key.api_key });
+	} catch (error) {
+		console.error("Error retrieving key", error);
+		res.status(500).json({ message: "Server error" });
+	}
+}
