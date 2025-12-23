@@ -1,0 +1,55 @@
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s ease;
+}
+
+.item:hover {
+    border-color: var(--border-strong);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.keyContainer {
+    display: flex;
+    align-items: center;
+}
+
+.key {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-secondary);
+    background-color: var(--bg-app);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.success {
+    color: var(--success);
+}
+
+.deleteBtn:hover {
+    color: var(--danger);
+    background-color: rgba(239, 68, 68, 0.1);
+}
