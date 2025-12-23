@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, LogOut } from 'lucide-react';
+import { LayoutGrid, LogOut, BarChart2 } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
 import styles from './DashboardLayout.module.css';
@@ -24,6 +24,13 @@ const DashboardLayout = ({ children }) => {
                     >
                         <LayoutGrid size={20} />
                         <span>Projects</span>
+                    </Link>
+                    <Link
+                        to="/analytics"
+                        className={`${styles.navItem} ${location.pathname === '/analytics' ? styles.active : ''} `}
+                    >
+                        <BarChart2 size={20} />
+                        <span>Analytics</span>
                     </Link>
                 </nav>
 
