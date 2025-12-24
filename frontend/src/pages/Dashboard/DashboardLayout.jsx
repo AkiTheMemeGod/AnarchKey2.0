@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, LogOut, BarChart2 } from 'lucide-react';
+import { LayoutGrid, LogOut, BarChart2, Terminal } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
 import styles from './DashboardLayout.module.css';
@@ -31,6 +31,13 @@ const DashboardLayout = ({ children }) => {
                     >
                         <BarChart2 size={20} />
                         <span>Analytics</span>
+                    </Link>
+                    <Link
+                        to="/playground"
+                        className={`${styles.navItem} ${location.pathname === '/playground' ? styles.active : ''} `}
+                    >
+                        <Terminal size={20} />
+                        <span>Playground</span>
                     </Link>
                 </nav>
 
