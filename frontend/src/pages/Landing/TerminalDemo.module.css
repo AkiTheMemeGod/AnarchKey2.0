@@ -1,0 +1,101 @@
+.terminalWindow {
+    background: rgba(5, 14, 40, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+}
+
+.header {
+    background: rgba(255, 255, 255, 0.05);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.dotRed,
+.dotYellow,
+.dotGreen {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dotRed {
+    background: #ff5f56;
+}
+
+.dotYellow {
+    background: #ffbd2e;
+}
+
+.dotGreen {
+    background: #27c93f;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.replayBtn {
+    color: var(--text-secondary);
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.replayBtn:hover {
+    opacity: 1;
+}
+
+.content {
+    padding: var(--space-4);
+    min-height: 300px;
+    color: #e6edf3;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.prompt {
+    color: var(--success);
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.output {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-2);
+    white-space: pre-wrap;
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--text-secondary);
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+.visible {
+    opacity: 1;
+}
+
+.cursor:not(.visible) {
+    opacity: 0;
+}
