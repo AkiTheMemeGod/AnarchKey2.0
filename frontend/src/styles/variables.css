@@ -36,7 +36,7 @@
   /* Keep standard green for success, or use blue? Standard is safer for UX */
 
   /* Typography */
-  --font-sans: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace;
+  --font-sans: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace;
 
   /* Spacing */
