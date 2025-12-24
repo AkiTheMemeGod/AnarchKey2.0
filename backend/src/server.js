@@ -25,6 +25,7 @@ app.use("/api/v1/sdk", sdkRoutes);
 const port = process.env.PORT
 connectDB().then(() => {
     app.listen(port, () => {
+        console.log("Frontend is accessible in ", process.env.FRONTEND_URL);
         console.log("Server is running on port: ", port);
     });
 });
