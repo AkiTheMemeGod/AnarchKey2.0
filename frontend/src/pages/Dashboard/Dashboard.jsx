@@ -3,6 +3,7 @@ import { Plus, Copy, Check, AlertTriangle } from 'lucide-react';
 import api from '../../services/api';
 import DashboardLayout from './DashboardLayout';
 import ProjectCard from './ProjectCard';
+import StatsHUD from './StatsHUD';
 import Button from '../../components/ui/Button';
 import Modal from '../../components/ui/Modal';
 import Input from '../../components/ui/Input';
@@ -99,24 +100,11 @@ const Dashboard = () => {
                 </Button>
             </div>
 
-            <div className={styles.statsGrid}>
-                <div className={styles.statCard}>
-                    <div className={styles.statLabel}>Total Projects</div>
-                    <div className={styles.statValue}>{projects.length}</div>
-                </div>
-                <div className={styles.statCard}>
-                    <div className={styles.statLabel}>Total Keys</div>
-                    <div className={styles.statValue}>
-                        {projects.reduce((acc, curr) => acc + (curr.keys?.length || 0), 0)}
-                    </div>
-                </div>
-                <div className={styles.statCard}>
-                    <div className={styles.statLabel}>Total API Calls (24h)</div>
-                    <div className={styles.statValue} style={{ color: 'var(--primary)' }}>
-                        {totalUsage}
-                    </div>
-                </div>
-            </div>
+            <StatsHUD
+                totalProjects={projects.length}
+                totalKeys={projects.reduce((acc, curr) => acc + (curr.keys?.length || 0), 0)}
+                totalUsage={totalUsage}
+            />
 
             {loading ? (
                 <div className={styles.loadingState}>
