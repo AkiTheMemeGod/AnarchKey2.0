@@ -181,3 +181,25 @@ export async function getUsageStats(req, res) {
 		res.status(500).json({ message: "Server error" });
 	}
 }
+
+export async function getUsageLogs(req, res) {
+	try {
+		const userId = req.user.id;
+		// Find all projects for this user
+		const projects = await Project.find({ userId }).select('_id');
+		const projectIds = projects.map(p => p._id);
+
+		// Fetch recent logs
+		const logs = await KeyUsage.find({
+			projectId: { $in: projectIds }
+		})
+			.sort({ timestamp: -1 })
+			.limit(50)
+			.populate('projectId', 'project_name');
+
+		res.status(200).json(logs);
+	} catch (error) {
+		console.error("Error fetching usage logs", error);
+		res.status(500).json({ message: "Error fetching usage logs", error: error.message });
+	}
+}
