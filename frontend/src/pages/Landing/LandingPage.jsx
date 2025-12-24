@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, AlertTriangle, Zap, Globe, Rocket, Package, Box, Copy, ExternalLink, Check } from 'lucide-react';
+import { Shield, AlertTriangle, Zap, Globe, Rocket, Package, Box, Copy, ExternalLink, Check, ChevronDown } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import Button from '../../components/ui/Button';
 import DecryptText from '../../components/ui/DecryptText';
+import TerminalDemo from './TerminalDemo';
 import styles from './LandingPage.module.css';
 
 const LandingPage = () => {
     const [activeTab, setActiveTab] = useState('python');
     const [copiedBlock, setCopiedBlock] = useState(null);
     const heroRef = useRef(null);
+    const featuresRef = useRef(null);
+    const usageRef = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -22,8 +25,22 @@ const LandingPage = () => {
             }
         };
 
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add(styles.visible);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const sections = document.querySelectorAll(`.${styles.animateSection}`);
+        sections.forEach(section => observer.observe(section));
+
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            sections.forEach(section => observer.unobserve(section));
+        };
     }, []);
 
     const copyCode = (code, blockId) => {
@@ -59,7 +76,7 @@ const LandingPage = () => {
                     <h1 className={styles.heroTitle}>
                         <DecryptText text="The Last API Key Manager" reveal={true} />
                         <br />
-                        You'll Ever Need
+                        <span className={styles.gradientText}>You'll Ever Need</span>
                     </h1>
                     <p className={styles.heroText}>
                         Stop compromising on security. AnarchKey provides military-grade encryption
@@ -72,9 +89,12 @@ const LandingPage = () => {
                         <Button size="lg" variant="secondary" onClick={scrollToUsage}>View Documentation</Button>
                     </div>
                 </div>
+                <div className={styles.scrollIndicator} onClick={scrollToUsage}>
+                    <ChevronDown size={32} />
+                </div>
             </section>
 
-            <section className={styles.features}>
+            <section className={`${styles.features} ${styles.animateSection}`} ref={featuresRef}>
                 <div className={styles.featuresGrid}>
                     <FeatureCard
                         icon={<Shield />}
@@ -109,120 +129,45 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            <section id="usage" className={styles.usageSection}>
+            <section id="usage" className={`${styles.usageSection} ${styles.animateSection}`} ref={usageRef}>
                 <div className={styles.sectionHeader}>
-                    <h2>How to Use AnarchKey</h2>
-                    <p>Get started in minutes with our Python or Node.js client libraries</p>
+                    <h2>Developer Experience First</h2>
+                    <p>Integrate in seconds, not hours.</p>
                 </div>
 
-                <div className={styles.tabs}>
-                    <button
-                        className={`${styles.tabBtn} ${activeTab === 'python' ? styles.activeTab : ''}`}
-                        onClick={() => setActiveTab('python')}
-                    >
-                        <Package size={20} /> Python (PyPI)
-                    </button>
-                    <button
-                        className={`${styles.tabBtn} ${activeTab === 'nodejs' ? styles.activeTab : ''}`}
-                        onClick={() => setActiveTab('nodejs')}
-                    >
-                        <Box size={20} /> Node.js (npm)
-                    </button>
-                </div>
+                <div className={styles.demoContainer}>
+                    <div className={styles.demoText}>
+                        <h3>See it in action</h3>
+                        <p>Watch how easy it is to initialize a project and retrieve your secrets securely.</p>
 
-                <div className={styles.tabContent}>
-                    {activeTab === 'python' ? (
-                        <div className={styles.usageGrid}>
-                            <UsageCard step="1" title="Install the Package">
-                                <p>Install AnarchKeyClient via pip:</p>
-                                <CodeBlock
-                                    code="pip install AnarchKeyClient"
-                                    onCopy={() => copyCode("pip install AnarchKeyClient", "py1")}
-                                    isCopied={copiedBlock === "py1"}
-                                />
-                            </UsageCard>
-                            <UsageCard step="2" title="Create Account">
-                                <p>Sign up for a free account:</p>
-                                <div className={styles.highlightBox}>
-                                    <h4><ExternalLink size={18} /> Registration</h4>
-                                    <p>Visit <Link to="/register" className={styles.link}>AnarchKey</Link> to create your account.</p>
-                                </div>
-                            </UsageCard>
-                            <UsageCard step="3" title="Initialize Client">
-                                <p>Set up your local authentication token:</p>
-                                <CodeBlock
-                                    code="anarchkey init --username <YourUsername> --password <YourPassword>"
-                                    onCopy={() => copyCode("anarchkey init ...", "py3")}
-                                    isCopied={copiedBlock === "py3"}
-                                />
-                            </UsageCard>
-                            <UsageCard step="4" title="Use in Your Code">
-                                <p>Retrieve your API keys securely:</p>
-                                <CodeBlock
-                                    code={`from AnarchKeyClient import AnarchKeyClient
-
-# Initialize the client
-client = AnarchKeyClient(
-    username="YourUsername",
-    api_key="YourAnarchKeyAPIKey"
-)
-
-# Retrieve an API key for your project
-response = client.get_api_key(project_name="YourProjectName")`}
-                                    onCopy={() => copyCode("python code...", "py4")}
-                                    isCopied={copiedBlock === "py4"}
-                                />
-                            </UsageCard>
+                        <div className={styles.demoTabs}>
+                            <button
+                                className={`${styles.demoTab} ${activeTab === 'python' ? styles.activeDemoTab : ''}`}
+                                onClick={() => setActiveTab('python')}
+                            >
+                                <Package size={16} /> Python
+                            </button>
+                            <button
+                                className={`${styles.demoTab} ${activeTab === 'nodejs' ? styles.activeDemoTab : ''}`}
+                                onClick={() => setActiveTab('nodejs')}
+                            >
+                                <Box size={16} /> Node.js
+                            </button>
                         </div>
-                    ) : (
-                        <div className={styles.usageGrid}>
-                            <UsageCard step="1" title="Install the Package">
-                                <p>Install globally via npm:</p>
-                                <CodeBlock
-                                    code="npm install anarchkey-client -g"
-                                    onCopy={() => copyCode("npm install ...", "node1")}
-                                    isCopied={copiedBlock === "node1"}
-                                />
-                            </UsageCard>
-                            <UsageCard step="2" title="Create Account">
-                                <p>Sign up for a free account:</p>
-                                <div className={styles.highlightBox}>
-                                    <h4><ExternalLink size={18} /> Registration</h4>
-                                    <p>Visit <Link to="/register" className={styles.link}>AnarchKey</Link> to create your account.</p>
-                                </div>
-                            </UsageCard>
-                            <UsageCard step="3" title="Initialize via CLI">
-                                <p>Set up your local authentication token:</p>
-                                <CodeBlock
-                                    code="anarchkey init --username YourName --password YourPassword"
-                                    onCopy={() => copyCode("anarchkey init ...", "node3")}
-                                    isCopied={copiedBlock === "node3"}
-                                />
-                            </UsageCard>
-                            <UsageCard step="4" title="Use in Your Code">
-                                <p>Retrieve your API keys securely:</p>
-                                <CodeBlock
-                                    code={`const AnarchKeyClient = require('anarchkey-client');
 
-(async () => {
-  const client = new AnarchKeyClient({
-    apiKey: 'myapikey',
-    username: 'me'
-  });
-
-  const result = await client.getApiKey('myproject');
-  console.log('result:', result);
-})();`}
-                                    onCopy={() => copyCode("node code...", "node4")}
-                                    isCopied={copiedBlock === "node4"}
-                                />
-                            </UsageCard>
-                        </div>
-                    )}
+                        <ul className={styles.demoList}>
+                            <li><Check size={16} /> Install the client</li>
+                            <li><Check size={16} /> Authenticate securely</li>
+                            <li><Check size={16} /> Fetch secrets with one line</li>
+                        </ul>
+                    </div>
+                    <div className={styles.demoTerminal}>
+                        <TerminalDemo mode={activeTab === 'python' ? 'python' : 'node'} />
+                    </div>
                 </div>
             </section>
 
-            <section className={styles.cta}>
+            <section className={`${styles.cta} ${styles.animateSection}`}>
                 <div className={styles.ctaContent}>
                     <h2>Ready to Secure Your API Keys?</h2>
                     <p>Join thousands of developers who trust AnarchKey with their secrets.</p>
@@ -246,23 +191,6 @@ const FeatureCard = ({ icon, title, desc }) => (
         <div className={styles.featureIcon}>{icon}</div>
         <h3>{title}</h3>
         <p>{desc}</p>
-    </div>
-);
-
-const UsageCard = ({ step, title, children }) => (
-    <div className={styles.usageCard}>
-        <h3><span className={styles.stepNumber}>{step}</span> {title}</h3>
-        {children}
-    </div>
-);
-
-const CodeBlock = ({ code, onCopy, isCopied }) => (
-    <div className={styles.codeBlock}>
-        <button className={styles.copyBtn} onClick={onCopy}>
-            {isCopied ? <Check size={14} /> : <Copy size={14} />}
-            {isCopied ? 'Copied!' : 'Copy'}
-        </button>
-        <pre>{code}</pre>
     </div>
 );
 
