@@ -1,0 +1,99 @@
+.terminal {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-family: 'Fira Code', monospace;
+    color: #00ff00;
+    height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    margin-top: 2rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.red {
+    background: #ff5f56;
+}
+
+.yellow {
+    background: #ffbd2e;
+}
+
+.green {
+    background: #27c93f;
+}
+
+.title {
+    margin-left: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+.logEntry {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.timestamp {
+    color: #666;
+    min-width: 100px;
+}
+
+.project {
+    color: #54a0ff;
+    font-weight: bold;
+}
+
+.key {
+    color: #ff9ff3;
+}
+
+.empty {
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Custom Scrollbar */
+.terminal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.terminal::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.terminal::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
