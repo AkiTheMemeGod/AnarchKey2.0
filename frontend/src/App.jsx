@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import ProjectDetails from './pages/Project/ProjectDetails';
 import LandingPage from './pages/Landing/LandingPage';
 import Analytics from './pages/Analytics/Analytics';
+import Playground from './pages/Playground/Playground';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} /> {/* Changed / to /dashboard for Dashboard */}
             <Route path="/project/:id" element={<ProjectDetails />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/playground" element={<Playground />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
