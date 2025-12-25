@@ -5,6 +5,8 @@
     margin-bottom: var(--space-8);
     padding-bottom: var(--space-6);
     border-bottom: 1px solid var(--glass-border);
+    flex-wrap: wrap;
+    gap: var(--space-4);
 }
 
 .title {
@@ -25,7 +27,7 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-6);
     animation: fadeIn 0.5s ease-out;
 }
