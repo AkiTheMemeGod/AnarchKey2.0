@@ -4,6 +4,60 @@
     background-color: var(--bg-app);
 }
 
+.mobileHeader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(0, 15, 40, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 50;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4);
+}
+
+.mobileLogo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.mobileLogoImg {
+    height: 32px;
+    width: auto;
+}
+
+.mobileLogoText {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text-primary);
+}
+
+.menuBtn {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: var(--space-2);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 45;
+    animation: fadeIn 0.2s ease-out;
+}
+
 .sidebar {
     width: 280px;
     background: rgba(0, 15, 40, 0.6);
@@ -17,6 +71,7 @@
     height: 100vh;
     z-index: 40;
     box-shadow: 5px 0 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .logo {
@@ -185,4 +240,41 @@
     overflow-y: auto;
     background: radial-gradient(circle at top right, rgba(0, 36, 85, 0.4), transparent 40%),
         radial-gradient(circle at bottom left, rgba(220, 0, 0, 0.05), transparent 40%);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobileHeader {
+        display: flex;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+        z-index: 50;
+        width: 80%;
+        max-width: 300px;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        padding: var(--space-4);
+        padding-top: 80px;
+        /* Space for mobile header */
+    }
 }
