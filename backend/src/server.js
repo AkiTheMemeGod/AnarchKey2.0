@@ -22,6 +22,11 @@ app.use("/api/auth", authRoutes)
 app.use("/api/v1/key", keyRoutes);
 app.use("/api/v1/project", projectRoutes)
 app.use("/api/v1/sdk", sdkRoutes);
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "OK", timestamp: new Date().toISOString() });
+});
+
 const port = process.env.PORT
 connectDB().then(() => {
     app.listen(port, () => {
