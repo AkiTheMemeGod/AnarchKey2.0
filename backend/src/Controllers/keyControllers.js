@@ -1,5 +1,6 @@
 import Project from '../Models/Project.js'
 import KeyUsage from '../Models/KeyUsage.js'
+import cache from '../utils/cache.js';
 
 export async function getAllKeys(req, res) {
 	try {
@@ -100,6 +101,26 @@ export async function retrieveKey(req, res) {
 			return res.status(400).json({ message: "access_token and secret_name are required" });
 		}
 
+		// Cache key: combination of access_token and secret_name
+		const cacheKey = `${access_token}:${secret_name}`;
+		const cachedData = cache.get(cacheKey);
+
+		if (cachedData) {
+			// Cache Hit
+			// Log usage asynchronously (fire-and-forget)
+			// We need the projectId for logging. We can store it in the cache or fetch it?
+			// To avoid fetching project just for logging, we should cache the projectId too.
+			// Let's assume cachedData contains { secret_name, api_key, projectId }
+
+			KeyUsage.create({
+				projectId: cachedData.projectId,
+				keyName: secret_name
+			}).catch(err => console.error("Error logging key usage (cache hit)", err));
+
+			return res.json({ secret_name: cachedData.secret_name, api_key: cachedData.api_key });
+		}
+
+		// Cache Miss
 		const project = await Project.findOne({ access_key: access_token });
 		if (!project) {
 			return res.status(404).json({ message: "Invalid access token" });
@@ -114,6 +135,13 @@ export async function retrieveKey(req, res) {
 		await KeyUsage.create({
 			projectId: project._id,
 			keyName: secret_name
+		});
+
+		// Store in cache
+		cache.set(cacheKey, {
+			secret_name: key.key_name,
+			api_key: key.api_key,
+			projectId: project._id
 		});
 
 		res.json({ secret_name: key.key_name, api_key: key.api_key });
