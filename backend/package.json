@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.1",
     "node-cache": "^5.1.2",
+    "relaymail": "^1.0.1",
     "resend": "^6.6.0"
   },
   "devDependencies": {
