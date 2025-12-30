@@ -1,28 +1,23 @@
-import { Resend } from 'resend';
+import { RelayMail } from 'relaymail';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API);
+const relay = new RelayMail({apiKey: process.env.RELAY_API});
 
-export const sendEmail = async (to, subject, text, html) => {
+export const sendEmail = async (to, subject, body, html) => {
   try {
-    // Resend does not allow sending from generic domains like gmail.com.
-    // We must use a verified domain or the Resend testing domain.
-    const senderEmail = process.env.SENDER_EMAIL && !process.env.SENDER_EMAIL.includes('gmail.com')
-      ? process.env.SENDER_EMAIL
-      : 'onboarding@resend.dev';
+    const senderEmail = process.env.SENDER_EMAIL
 
-    const { data, error } = await resend.emails.send({
-      from: `"AnarchKey Support" <${senderEmail}>`,
-      to,
-      subject,
-      text,
-      html,
+    const { data, error } = await relay.send({
+      to: to,
+      subject: subject,
+      body: body,
+      html: html,
     });
 
     if (error) {
-      console.error("Resend API Error:", error);
+      console.error("Relay API Error:", error);
       throw new Error(error.message);
     }
 
