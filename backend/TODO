@@ -1,0 +1,5 @@
+1. Implement RateLimiter for the sdk Routes
+2. There is a bug where the user can still login without the otp being verified .. fix that.. (when a new user signs up a vertify otp is being prompted
+but without verifying the otp we can still go to the login route and still login as the new user without actually verifying the otp.. Major Priority Bug)
+Fix That
+
