@@ -67,6 +67,10 @@ export async function login_User(req, res) {
     const isMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
+    if (!user.isVerified) {
+      return res.status(400).json({ msg: "Please verify your email first" });
+    }
+
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.JWT_SECRET,
