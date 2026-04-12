@@ -1,5 +1,6 @@
-import Project from '../Models/Project.js'
-import KeyUsage from '../Models/KeyUsage.js'
+import Project from '../Models/Project.js';
+import KeyUsage from '../Models/KeyUsage.js';
+import User from '../Models/User.js';
 import cache from '../utils/cache.js';
 
 export async function getAllKeys(req, res) {
@@ -101,8 +102,14 @@ export async function retrieveKey(req, res) {
 			return res.status(400).json({ message: "access_token and secret_name are required" });
 		}
 
-		// Cache key: combination of access_token and secret_name
-		const cacheKey = `${access_token}:${secret_name}`;
+		// Also check salt hash coming from the npm package
+		const init_token = req.headers['x-anarchkey-init'];
+		if (!init_token) {
+			return res.status(403).json({ message: "Init token missing. Please run init service." });
+		}
+
+		// Cache key: combination of access_token and secret_name and init_token
+		const cacheKey = `${access_token}:${secret_name}:${init_token}`;
 		const cachedData = cache.get(cacheKey);
 
 		if (cachedData) {
@@ -124,6 +131,11 @@ export async function retrieveKey(req, res) {
 		const project = await Project.findOne({ access_key: access_token });
 		if (!project) {
 			return res.status(404).json({ message: "Invalid access token" });
+		}
+
+		const user = await User.findById(project.userId);
+		if (!user || user.salt_hash !== init_token) {
+			return res.status(403).json({ message: "Invalid init token" });
 		}
 
 		const key = project.keys.find(k => k.key_name === secret_name);
