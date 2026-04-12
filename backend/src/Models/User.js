@@ -5,6 +5,7 @@ const userSchema = mongoose.Schema({
     email: { type: String, required: true },
     passwordHash: { type: String, required: true },
     otp: { type: String },
+    salt_hash: { type: String },
     otpExpires: { type: Date },
     isVerified: { type: Boolean, default: false }
 });
