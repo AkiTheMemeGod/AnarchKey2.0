@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../utils/mailer.js';
 import { getVerificationEmailTemplate } from '../utils/emailTemplates.js';
+import generateApiKey from "../utils/generators.js";
 
 
 export async function register_User(req, res) {
@@ -147,5 +148,35 @@ export async function verifyOtp(req, res) {
   } catch (error) {
     console.error("Error verifying OTP:", error);
     res.status(500).json({ msg: "Server error" });
+  }
+}
+
+export async function initService(req, res) {
+  try {
+    const { username, password } = req.body;
+    
+    if (!username || !password) {
+      return res.status(400).json({ error: "Username and password are required" });
+    }
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    if (!user.salt_hash) {
+      user.salt_hash = generateApiKey();
+      await user.save();
+    }
+
+    res.json({ token: user.salt_hash });
+  } catch (err) {
+    console.error("Error in initService", err);
+    res.status(500).json({ error: "Server error" });
   }
 }
