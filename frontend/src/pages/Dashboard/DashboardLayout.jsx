@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, LogOut, BarChart2, Terminal, Menu, X } from 'lucide-react';
+import { LayoutGrid, LogOut, BarChart2, Terminal, Menu, X, BookOpen } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
 import styles from './DashboardLayout.module.css';
@@ -61,6 +61,16 @@ const DashboardLayout = ({ children }) => {
                     >
                         <Terminal size={20} />
                         <span>Playground</span>
+                    </Link>
+                    <Link
+                        to="/docs"
+                        className={`${styles.navItem} ${location.pathname === '/docs' ? styles.active : ''} `}
+                        onClick={closeSidebar}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <BookOpen size={20} />
+                        <span>Documentation</span>
                     </Link>
                 </nav>
 

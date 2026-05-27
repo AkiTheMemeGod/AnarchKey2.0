@@ -149,44 +149,294 @@
     transition: all 0.8s ease-out;
 }
 
-.featuresGrid {
+.featuresHeader {
+    text-align: center;
+    margin-bottom: var(--space-12);
+}
+
+.featuresHeader h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+}
+
+.bracket {
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(255, 56, 56, 0.4);
+}
+
+.featuresHeader p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.industrialGrid {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-6);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 1.2fr 0.8fr;
     gap: var(--space-8);
 }
 
-.featureCard {
-    padding: var(--space-6);
-    background: var(--glass-surface);
+/* TERMINAL PANEL */
+.terminalPanel {
+    background: #010416;
+    border: 1px solid rgba(255, 56, 56, 0.15);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 56, 56, 0.03);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminalHeader {
+    background: rgba(255, 56, 56, 0.03);
+    border-bottom: 1px solid rgba(255, 56, 56, 0.1);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.terminalDots {
+    display: flex;
+    gap: 6px;
+}
+
+.dotRed, .dotYellow, .dotGreen {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dotRed { background: #ef4444; }
+.dotYellow { background: #f59e0b; }
+.dotGreen { background: #10b981; }
+
+.terminalTitle {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+}
+
+.terminalBadge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 1px 6px;
+    border-radius: 3px;
+    animation: flash 2s infinite;
+}
+
+.terminalBody {
+    padding: var(--space-5);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    background: radial-gradient(circle at bottom right, rgba(255, 56, 56, 0.02) 0%, transparent 60%);
+}
+
+.logsStream {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    min-height: 160px;
+}
+
+.logRow {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.logTimestamp {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+}
+
+.logSeverity {
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.info {
+    color: #8899a6;
+}
+
+.success {
+    color: #10b981;
+}
+
+.audit {
+    color: #06b6d4;
+}
+
+.drill {
+    color: #f59e0b;
+    animation: textGlow 1s infinite alternate;
+}
+
+.logText {
+    word-break: break-all;
+}
+
+.drillBtn {
+    background: rgba(255, 56, 56, 0.06);
+    border: 1px solid rgba(255, 56, 56, 0.3);
+    color: var(--primary);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    margin-top: auto;
+}
+
+.drillBtn:hover:not(:disabled) {
+    background: rgba(255, 56, 56, 0.12);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(255, 56, 56, 0.2);
+}
+
+.drillActive {
+    border-color: #f59e0b !important;
+    color: #f59e0b !important;
+    background: rgba(245, 158, 11, 0.05) !important;
+    cursor: not-allowed;
+}
+
+.spin {
+    animation: rotate 1s linear infinite;
+}
+
+/* SPECS PANEL */
+.specsPanel {
+    background: rgba(5, 14, 60, 0.2);
+    border: 1px solid var(--glass-border);
     backdrop-filter: blur(var(--blur-amount));
     -webkit-backdrop-filter: blur(var(--blur-amount));
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
     box-shadow: var(--shadow-glass);
 }
 
-.featureCard:hover {
-    transform: translateY(-4px);
-    border-color: var(--text-secondary);
-}
-
-.featureIcon {
+.specsHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: var(--space-4);
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: var(--space-3);
 }
 
-.featureCard h3 {
-    font-size: 1.25rem;
-    margin-bottom: var(--space-2);
+.specsIcon {
+    color: var(--primary);
 }
 
-.featureCard p {
+.specsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.metricRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    padding-bottom: 8px;
+}
+
+.metricLabel {
     color: var(--text-secondary);
-    line-height: 1.6;
+}
+
+.metricValue {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.blueprintFlow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: auto;
+    border-top: 1px solid var(--glass-border);
+    padding-top: var(--space-4);
+}
+
+.blueprintNode {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nodeNum {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.blueprintNode h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.blueprintNode p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.blueprintDivider {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 56, 56, 0.2) 0%, transparent 100%);
+}
+
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes textGlow {
+    from { text-shadow: 0 0 2px rgba(245, 158, 11, 0.2); }
+    to { text-shadow: 0 0 8px rgba(245, 158, 11, 0.6); }
 }
 
 .usageSection {
@@ -407,7 +657,7 @@
         padding: 4rem 0;
     }
 
-    .featuresGrid {
+    .industrialGrid {
         grid-template-columns: 1fr;
         gap: var(--space-6);
     }
@@ -444,5 +694,34 @@
 
     .cta h2 {
         font-size: 2rem;
+    }
+
+    .navActions {
+        gap: var(--space-4) !important;
+    }
+}
+
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.navLink {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.navLink:hover {
+    color: var(--text-primary);
+}
+
+@media (max-width: 992px) {
+    .industrialGrid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-6) !important;
     }
 }

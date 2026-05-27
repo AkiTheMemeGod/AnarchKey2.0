@@ -10,6 +10,7 @@ import ProjectDetails from './pages/Project/ProjectDetails';
 import LandingPage from './pages/Landing/LandingPage';
 import Analytics from './pages/Analytics/Analytics';
 import Playground from './pages/Playground/Playground';
+import Documentation from './pages/Documentation/Documentation';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/docs" element={<Documentation />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} /> {/* Changed / to /dashboard for Dashboard */}
