@@ -95,6 +95,68 @@ export async function deleteKey(req, res) {
 	}
 }
 
+export async function bulkAddKeys(req, res) {
+	try {
+		const { projectId, items } = req.body || {};
+		if (!projectId) return res.status(400).json({ message: 'projectId is required' });
+		if (!Array.isArray(items) || items.length === 0) {
+			return res.status(400).json({ message: 'items must be a non-empty array' });
+		}
+
+		const project = await Project.findById(projectId);
+		if (!project) return res.status(404).json({ message: 'Project not found' });
+		// Ownership check (matches the rest of the controllers)
+		if (req.user?.id && String(project.userId) !== String(req.user.id)) {
+			return res.status(403).json({ message: 'Forbidden' });
+		}
+
+		const allowedDuplicates = new Set(['add', 'skip', 'overwrite']);
+		const result = { imported: 0, overwritten: 0, skipped: 0, errors: [] };
+
+		for (let i = 0; i < items.length; i++) {
+			const raw = items[i] || {};
+			const key_name = typeof raw.key_name === 'string' ? raw.key_name.trim() : '';
+			const api_key = typeof raw.api_key === 'string' ? raw.api_key : '';
+			const duplicate = allowedDuplicates.has(raw.duplicate) ? raw.duplicate : 'add';
+
+			if (!key_name || !api_key) {
+				result.errors.push({ index: i, message: 'key_name and api_key are required' });
+				continue;
+			}
+
+			const existingIdx = project.keys.findIndex(k => k.key_name === key_name);
+			if (existingIdx >= 0) {
+				if (duplicate === 'overwrite') {
+					project.keys[existingIdx].api_key = api_key;
+					result.overwritten += 1;
+				} else {
+					// 'skip' or 'add' when a conflict exists: leave existing untouched
+					result.skipped += 1;
+				}
+			} else {
+				// No conflict — any duplicate value resolves to "add"
+				project.keys.push({ key_name, api_key });
+				result.imported += 1;
+			}
+		}
+
+		if (result.imported > 0 || result.overwritten > 0) {
+			await project.save();
+			// Bulk mutation — clear the cache to avoid serving stale secret values
+			cache.clear();
+		}
+
+		res.status(200).json({
+			message: 'Bulk import complete',
+			projectId: project._id,
+			...result,
+		});
+	} catch (error) {
+		console.error('Error bulk adding keys', error);
+		res.status(500).json({ message: 'Server error' });
+	}
+}
+
 export async function retrieveKey(req, res) {
 	try {
 		const { access_token, secret_name } = req.body;
