@@ -1,2 +1,7 @@
 .github/copilot-instructions.md
 frontend/.env
+.env
+node_modules/
+dist/
+build/
+*env
