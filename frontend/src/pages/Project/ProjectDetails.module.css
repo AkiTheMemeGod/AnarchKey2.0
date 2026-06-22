@@ -204,3 +204,213 @@
     gap: var(--space-4);
     color: var(--text-secondary);
 }
+
+/* ---- Import from .env modal ---- */
+
+.importBody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.importHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    justify-content: space-between;
+}
+
+.importHeaderText {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.importHeaderHint {
+    color: var(--text-tertiary);
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.fileName {
+    color: var(--text-tertiary);
+    font-size: 12px;
+}
+
+.fileName code {
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+}
+
+.importTextarea {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.importTextarea:focus {
+    border-color: var(--primary);
+}
+
+.previewWrap {
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    background: rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.previewHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--glass-border);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+}
+
+.previewCount {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+}
+
+.previewList {
+    max-height: 320px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.previewRow {
+    display: grid;
+    grid-template-columns: 28px minmax(110px, 1fr) minmax(0, 2fr) 100px;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 13px;
+}
+
+.previewRow:last-child {
+    border-bottom: none;
+}
+
+.previewRowDuplicate {
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.previewInclude {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.previewKey {
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.duplicateTag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 1px 6px;
+    font-family: var(--font-sans, sans-serif);
+}
+
+.previewValue {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+}
+
+.previewValue code {
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+}
+
+.revealBtn {
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: 2px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    transition: color 0.15s ease;
+}
+
+.revealBtn:hover {
+    color: var(--text-primary);
+}
+
+.previewDupControl {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.duplicateSelect {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 4px 8px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.duplicateSelect:focus {
+    border-color: var(--primary);
+}
+
+.duplicatePlaceholder {
+    color: var(--text-tertiary);
+    font-size: 14px;
+    user-select: none;
+}
+
+.importSummary {
+    color: #34d399;
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    font-size: 13px;
+}
